@@ -15,3 +15,15 @@ ES6 (ESNext, ES2015)
 11. Template strings
 12. Object construction
 13. class
+
+
+HTML  & JSX
+
+HTML - Just open tag is allowed (<br>, <hr>)
+JSX - Every open tag must have the corresponding close tag (<hr/>, <br/>)
+
+HTML - use the 'class' attribute for css styles
+JSX - use 'className' instead of 'class'
+
+HTML - use the 'for' attribute for label
+JSX - use 'htmlFor' instead of 'for'
