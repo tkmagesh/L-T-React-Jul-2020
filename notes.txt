@@ -1,0 +1,17 @@
+RIA (Rich Internet Applications)
+
+
+ES6 (ESNext, ES2015)
+1. let
+2. const
+3. Array destructuring
+4. Rest operator (array)
+5. Spread operator (array)
+6. Object destructuring
+7. Rest operator (object)
+8. Spread operator (object)
+9. Default arguments
+10. Arrow functions
+11. Template strings
+12. Object construction
+13. class
