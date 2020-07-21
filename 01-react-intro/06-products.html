@@ -15,16 +15,19 @@
     <script src="babel.min.js"></script>
     <script type="text/babel">
         class Products extends React.Component {
+            state = { 
+                productNames : [],
+                newProductName : ''
+            };
+
+            onAddNewClick = () => {
+                let { productNames, newProductName } = this.state;
+                productNames.push(newProductName);
+                this.setState({ productNames : productNames }); 
+            }
+
             render() {
-                const productNames = [];
-                /* 
-                const productItems = [ ];
-                for (let index = 0; index < productNames.length; index++) {
-                    const productName = productNames[index];
-                    const productItem = (<li key={index}>{productName}</li>);
-                    productItems.push(productItem);
-                } 
-                */
+                const { productNames } = this.state;
                 const productItems = productNames.map( (productName, index) => (<li key={index}>{productName}</li>));
                 return(
                     <section>
@@ -32,12 +35,12 @@
                     <hr/>
                     <div>
                         <span> Count : </span>
-                        <span> 0 </span>
+                        <span> {productNames.length} </span>
                     </div>
                     <div>
                         <label htmlFor="">Product Name : </label>    
-                        <input type="text" name="" id=""/>
-                        <input type="button" value="Add New"/>
+                        <input type="text" onChange={ evt => this.setState({newProductName: evt.target.value})} />
+                        <input type="button" value="Add New" onClick={this.onAddNewClick}/>
                     </div>
                     <ul>
                        { productItems }
