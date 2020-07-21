@@ -19,6 +19,12 @@
             font-size : 18pt;
             padding-right: 10px;
         }
+        .poorSalary{
+            color : red;
+        }
+        .goodSalary{
+            color : green;
+        }
     </style>
     <script src="react.development.js"></script>
     <script src="react-dom.development.js"></script>
@@ -43,39 +49,61 @@
                 const { basic, hra, da, tax, salary } = this.state;
                 return(
                     <section>
-                        <div className="field">
-                            <label htmlFor="">Basic :</label>
-                            <input type="number" onChange={ evt => this.setState({ basic : evt.target.valueAsNumber })}/>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="">HRA :</label>
-                            <input type="number" onChange={ evt => this.setState({ hra : evt.target.valueAsNumber })}/>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="">DA :</label>
-                            <input type="number" onChange={ evt => this.setState({ da : evt.target.valueAsNumber })}/>
-                        </div>
+                        <SalaryCalculatorInput 
+                            labelText="Basic : " 
+                            onValueChange={ data => this.setState({basic : data }) }
+                        />
+                        <SalaryCalculatorInput 
+                            labelText="HRA : " 
+                            onValueChange={ data => this.setState({hra : data }) }
+                        />
+                        <SalaryCalculatorInput 
+                            labelText="DA : " 
+                            onValueChange={ data => this.setState({da : data }) }
+                        />
                         <div className="field">
                             <label htmlFor="">Tax :</label>
-                            <input type="range" min="0" max="30" onChange={ evt => this.setState({ tax : evt.target.valueAsNumber })}/>
+                            <input type="range" min="0" max="30" defaultValue="0" onChange={ evt => this.setState({ tax : evt.target.valueAsNumber })}/>
                         </div>
                         <div className="field">
                             <input type="button" value="Calculate" onClick={this.onBtnCalculateClick} />
                         </div>
-                        <div className="field">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>{basic}</td>
-                                        <td>{hra}</td>
-                                        <td>{da}</td>
-                                        <td>{tax}</td>
-                                        <td>{salary}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <SalaryCalculatorResult data={this.state} />
                     </section>
+                )
+            }
+        }
+
+        class SalaryCalculatorInput extends React.Component{
+            render () {
+                const { labelText, onValueChange /* callback function */ } = this.props;
+                return(
+                    <div className="field">
+                        <label htmlFor="">{labelText}</label>
+                        <input type="number" onChange={ evt => onValueChange(evt.target.valueAsNumber)}/>
+                    </div>
+                )
+            }
+        }
+
+        class SalaryCalculatorResult extends React.Component{
+            render () {
+                const { data } = this.props,
+                    { basic, hra, da, tax, salary } = data;
+                return (
+                    <div className="field">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>{basic}</td>
+                                    <td>{hra}</td>
+                                    <td>{da}</td>
+                                    <td>{tax}</td>
+                                    <td className={ salary >= 10000 ? 'goodSalary' : 'poorSalary'}>{salary}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 )
             }
         }
