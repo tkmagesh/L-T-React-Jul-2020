@@ -73,7 +73,7 @@
                             min="0" max="30" defaultValue="0"
                             onValueChange={ data => this.setState({tax : data }) }
                         />
-                        
+
                         <div className="field">
                             <input type="button" value="Calculate" onClick={this.onBtnCalculateClick} />
                         </div>
@@ -103,6 +103,12 @@
             render () {
                 const { data } = this.props,
                     { basic, hra, da, tax, salary } = data;
+                const salaryEle = (
+                    <td className={ salary >= 10000 ? 'goodSalary' : 'poorSalary'}>
+                        {salary}
+                    </td>
+                );
+
                 return (
                     <div className="field">
                         <table>
@@ -112,7 +118,7 @@
                                     <td>{hra}</td>
                                     <td>{da}</td>
                                     <td>{tax}</td>
-                                    <td className={ salary >= 10000 ? 'goodSalary' : 'poorSalary'}>{salary}</td>
+                                    { salary === 0 ? null :  salaryEle}
                                 </tr>
                             </tbody>
                         </table>
