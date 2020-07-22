@@ -27,3 +27,14 @@ JSX - use 'className' instead of 'class'
 
 HTML - use the 'for' attribute for label
 JSX - use 'htmlFor' instead of 'for'
+
+State
+    UI State
+        data that supports the presentation logic
+        Very very unlikely that other components might be interested in ths state
+        Can be kept in the component
+
+    App State
+        data that supports the core business logic
+        Very very LIKELY that the whole application might be interested in this state
+        SHOULD BE KEPT AWAY from the component
