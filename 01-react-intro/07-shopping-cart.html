@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shopping Cart</title>
+    <style>
+    body{ 
+        margin-left : 50px;
+    }
+    section{
+        margin-bottom:10px;
+    }
+    label{
+        display : block;
+    }
+    table{
+        border : 1px solid gray;
+        border-radius: 5px;
+        padding : 10px;
+    }
+    th, td{
+        padding : 10px;
+    }
+    #cartValue {
+        font-size: 22pt;
+    }
+    .field{
+        margin-bottom: 10px;
+    }
+    </style>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        class ShoppingCart extends React.Component {
+            txtProductNameRef = React.createRef();
+            state = {
+                productName : '', 
+                units : 0,
+                unitCost : 0,
+                cartItems : []
+            }
+
+            onAddProductClick = () => {
+                const { productName, units, unitCost, cartItems } = this.state;
+                const newCartItem = { name : productName, units, unitCost, itemValue : units * unitCost };
+                this.setState({
+                    cartItems: [...cartItems, newCartItem],
+                    productName : '',
+                    units : 0,
+                    unitCost : 0
+                });
+                this.txtProductNameRef.current.focus();
+            }
+            render() {
+                const { cartItems, productName, units, unitCost } = this.state;
+                const productItems = cartItems.map(({name, units, unitCost, itemValue}, index) => (
+                    <tr key={index}>
+                        <td>{name}</td>
+                        <td>{units}</td>
+                        <td>{unitCost}</td>
+                        <td>{itemValue}</td>
+                    </tr>
+                ));
+                const cartValue = cartItems.reduce((result, cartItem) => result + cartItem.itemValue, 0);
+                return ( 
+                    <div>
+                        <section>
+                            <div className="field">
+                                <label htmlFor="">Name :</label>
+                                <input type="text" ref={this.txtProductNameRef} value={productName} onChange={ evt => this.setState({productName : evt.target.value})} />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="">Units :</label>
+                                <input type="number" value={units} onChange = { evt => this.setState({units : evt.target.valueAsNumber})} />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="">Unit Cost :</label>
+                                <input type="number" value={unitCost} onChange = { evt => this.setState({unitCost : evt.target.valueAsNumber})}/>
+                            </div>
+                            <div className="field">
+                                <input type="button" value="Add Product" onClick={this.onAddProductClick} />
+                            </div>
+                        </section>
+                        <section>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Units</th>
+                                        <th>Unit Cost</th>
+                                        <th>Product Value</th>
+                                    </tr>
+                                    {productItems}
+                                </thead>
+                            </table>
+                        </section>
+                        <div id="cartValue">{cartValue}</div>
+                    </div>
+                );
+
+            }
+        }
+
+        ReactDOM.render(<ShoppingCart />, document.getElementById('root'))
+    
+    </script>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <hr>
+    <div id="root">
+
+
+    </div>
+</body>
+</html>
