@@ -44,10 +44,7 @@
                     <section>
                     <h1>Products</h1>
                     <hr/>
-                    <div>
-                        <span> Count : </span>
-                        <span> {productNames.length} </span>
-                    </div>
+                    
                     <div>
                         <label htmlFor="">Product Name : </label>    
                         <input type="text" onChange={ evt => this.setState({newProductName: evt.target.value})} />
@@ -60,7 +57,23 @@
                 )
             }
         }
-        ReactDOM.render(<Products />, document.getElementById('root'));
+
+        class ProductsCount extends React.Component {
+            render(){
+                return(
+                    <div>
+                        <span> Count : </span>
+                        <span> 0 </span>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <div>
+                <ProductsCount/>
+                <Products />
+            </div>
+        , document.getElementById('root'));
     </script>
 </head>
 <body>
