@@ -24,12 +24,14 @@
                 let { productNames, newProductName } = this.state;
                 productNames.push(newProductName);
                 this.setState({ productNames : productNames }); 
+                this.props.onListChange(productNames);
             }
 
             onRemoveClick = (productNameToRemove) => {
                 let { productNames } = this.state;
                 const updatedProductNames = productNames.filter(productName => productName !== productNameToRemove);
                 this.setState({ productNames : updatedProductNames }); 
+                this.props.onListChange(updatedProductNames);
             }
 
             render() {
@@ -63,16 +65,28 @@
                 return(
                     <div>
                         <span> Count : </span>
-                        <span> 0 </span>
+                        <span> {this.props.count} </span>
                     </div>
                 )
             }
         }
+
+        class MyApp extends React.Component{
+            state = { data: [ ]};
+            onProductsChange = (productsList) => {
+                this.setState({ data : productsList});
+            }
+            render(){
+                return(
+                    <div>
+                        <ProductsCount count={this.state.data.length}/>
+                        <Products onListChange={this.onProductsChange}/>
+                    </div>
+                );
+            }
+        }
         ReactDOM.render(
-            <div>
-                <ProductsCount/>
-                <Products />
-            </div>
+            <MyApp/>
         , document.getElementById('root'));
     </script>
 </head>
