@@ -8,8 +8,8 @@
     <title>Bug Tracker</title>
     <!-- 
         Use Cases :
-            1. Add new bugs
-            2. List the added bugs
+            (done) 1. Add new bugs
+            (done) 2. List the added bugs
             3. Toggle the 'closed' status of any bug
             4. Remove any bug
             5. Remove closed bugs
@@ -62,10 +62,47 @@
     <script src="react.development.js"></script>
     <script src="react-dom.development.js"></script>
     <script src="babel.min.js"></script>
-    <script src="state-manager.js"></script>
+    <script src="redux.js"></script>
     <script type="text/babel">
+
+        //state changes in the reducer has to be immutable
+        function bugsReducer(currentState = [], action){
+            if (action.type === 'ADD_NEW_BUG'){
+                const newState = [ ...currentState, action.payload ];
+                return newState;
+            }
+            return currentState;
+        }
+
+        let prevBugId = 0;
+
+        const bugActionCreators = {
+            addNew(newBugName){
+                const newBug = {
+                    id : ++prevBugId,
+                    name : newBugName,
+                    isClosed : false,
+                    createdAt : new Date()
+                };
+                const action = { type : 'ADD_NEW_BUG', payload : newBug };
+                return action;
+            }
+        }
+
         class BugTracker extends React.Component{
+            state = {
+                newBugName : ''
+            };
+            
             render(){
+                const { bugs, addNew } = this.props;
+                const bugItems = bugs.map(bug => (
+                    <li key={bug.id}>
+                        <span className="bugname">{bug.name}</span>
+                        <div className="datetime">{bug.createdAt.toString()}</div>
+                        <input type="button" value="Remove"/>
+                    </li>
+                ));
                 return(
                     <div>
                         <h1>Bug Tracker</h1>
@@ -73,7 +110,7 @@
                         <section className="stats">
                             <span className="closed">1</span>
                             <span> / </span>
-                            <span>2</span>
+                            <span>{bugs.length}</span>
                         </section>
                         <section className="sort">
                             <label htmlFor="">Order By :</label>
@@ -87,23 +124,12 @@
                         </section>
                         <section className="edit">
                             <label htmlFor="">Bug Name :</label>
-                            <input type="text" name="" id=""/>
-                            <input type="button" value="Add new"/>
+                            <input type="text" onChange={ evt => this.setState({ newBugName : evt.target.value })}/>
+                            <input type="button" value="Add new" onClick={ () => addNew(this.state.newBugName) } />
                         </section>
                         <section className="list">
                             <ol>
-                                <li>
-                                    <span className="bugname">[This is bug - 1]</span>
-                                    <div className="datetime">[Created At]</div>
-                                    <input type="button" value="Remove"/>
-                                </li>
-                                <li>
-                                    <span className="bugname closed"
-                                        title="Aliquip nostrud in tempor Lorem ut nisi ullamco excepteur dolore nisi irure enim enim. Esse consequat qui ullamco consectetur sint. Minim enim et reprehenderit ex et culpa incididunt. Cillum velit excepteur ea proident cillum est elit. Commodo exercitation ex sit ut eu duis ea sunt.">Aliquip
-                                        nostrud in tempor Lorem...</span>
-                                    <div className="datetime">[Created At]</div>
-                                    <input type="button" value="Remove"/>
-                                </li>
+                                {bugItems}
                             </ol>
                             <input type="button" value="Remove Closed"/>
                         </section>
@@ -111,8 +137,19 @@
                 )
             }
         }
-        
-        ReactDOM.render(<BugTracker/>, document.getElementById('root'));
+
+        const appStore = Redux.createStore(bugsReducer);
+
+        const bugActionDispatchers = Redux.bindActionCreators(bugActionCreators, appStore.dispatch);
+
+        function renderApp(){
+            const bugs = appStore.getState();
+            ReactDOM.render(
+                <BugTracker bugs={bugs} {...bugActionDispatchers} />, 
+            document.getElementById('root'));
+        };
+        renderApp();
+        appStore.subscribe(renderApp);
     </script>
 </head>
 
