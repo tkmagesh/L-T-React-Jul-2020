@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Products</title>
+    <style>
+        body{ 
+            margin-left: 50px;
+        }
+    </style>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="state-manager.js"></script>
+
+    <script type="text/babel">
+        function productsReducer(currentState = [], action){
+            if (action.type === 'ADD_NEW_PRODUCT'){
+                const newState  = [...currentState, action.payload];
+                return newState;
+            }
+            return currentState;
+        }
+
+
+        class Products extends React.Component {
+            state = { 
+                newProductName : ''
+            };
+
+            onAddNewClick = () => {
+                let { newProductName } = this.state;
+                const action = { type : 'ADD_NEW_PRODUCT', payload: newProductName };
+                this.props.store.dispatch(action);
+            }
+
+            render() {
+                const productNames = this.props.store.getState();
+                const productItems = productNames.map( (productName, index) => (
+                    <li key={index}>
+                        <span> {productName} </span>
+                    </li>
+                ));
+                return(
+                    <section>
+                    <h1>Products</h1>
+                    <hr/>
+                    
+                    <div>
+                        <label htmlFor="">Product Name : </label>    
+                        <input type="text" onChange={ evt => this.setState({newProductName: evt.target.value})} />
+                        <input type="button" value="Add New" onClick={this.onAddNewClick}/>
+                    </div>
+                    <ul>
+                       { productItems }
+                    </ul>
+                </section>
+                )
+            }
+        }
+
+        class ProductsCount extends React.Component {
+            render(){
+                return(
+                    <div>
+                        <span> Count : </span>
+                        <span> {this.props.store.getState().length} </span>
+                    </div>
+                )
+            }
+        }
+
+        class MyApp extends React.Component{
+            render(){
+                return(
+                    <div>
+                        <ProductsCount store={this.props.store}/>
+                        <Products store={this.props.store}/>
+                    </div>
+                );
+            }
+        }
+
+        const store = StateManager.createStore(productsReducer);
+        function renderApp(){
+            ReactDOM.render(
+                <MyApp store={store}/>
+            , document.getElementById('root'));
+        }
+        renderApp();
+        store.subscribe(renderApp);
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>

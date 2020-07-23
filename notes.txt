@@ -38,3 +38,12 @@ State
         data that supports the core business logic
         Very very LIKELY that the whole application might be interested in this state
         SHOULD BE KEPT AWAY from the component
+
+
+    Store
+        Manages the application state for the whole application
+        Single Point of contact for any application state in the application
+        APIs
+            - getState()
+            - subscribe(callback)
+            
