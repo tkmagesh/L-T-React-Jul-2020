@@ -11,6 +11,7 @@
         step - 02. remove the dependency on the store in the component
         step - 03. introducing 'action creators'
         step - 04. simplifying the passing of action creators to the component
+        step - 05. introducing 'action dispatchers' (and thereby removing the dependency of action creators and dispatch from the component)
      -->
      <script src="react.development.js"></script>
      <script src="react-dom.development.js"></script>
@@ -35,14 +36,16 @@
             }
         };
 
+
+
         class Spinner extends React.Component{
             onDecrementClick = () => {
-                const action = this.props.decrement();
-                this.props.dispatch(action);
+                //actionDispatcher's decrement()
+                this.props.decrement();
             }
             onIncrementClick = () => {
-                const action = this.props.increment();
-                this.props.dispatch(action);
+                //actionDispatcher's increment()
+                this.props.increment();
             }
             render(){
                 const spinnerValue = this.props.value;
@@ -56,21 +59,30 @@
             }
         }
 
-        var store = StateManager.createStore(spinnerReducer)
+        function bindSpinnerActionCreators(actionCreators, dispatch){
+            var actionDispatchers = {
+                decrement(){
+                    const action = actionCreators.decrement();
+                    dispatch(action);
+                },
+                increment(){
+                    const action = actionCreators.increment();
+                    dispatch(action);
+                }
+            };
+            return actionDispatchers;
+        }
+
+        var store = StateManager.createStore(spinnerReducer);
+
+        var actionDispatchers = bindSpinnerActionCreators(spinnerActionCreators, store.dispatch);
 
         function renderSpinner(){
             const value = store.getState();
-            {/*  <Spinner 
-                    value={value} 
-                    dispatch={store.dispatch} 
-                    decrement={spinnerActionCreators.decrement} 
-                    increment={spinnerActionCreators.increment} 
-            /> */}
             ReactDOM.render(
                  <Spinner 
                     value={value} 
-                    dispatch={store.dispatch} 
-                    {...spinnerActionCreators}
+                    {...actionDispatchers}
                 />
             , document.getElementById('root'));
         }
