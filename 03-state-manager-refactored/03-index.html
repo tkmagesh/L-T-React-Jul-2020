@@ -9,6 +9,7 @@
      <!--
         step - 01. initial implementation
         step - 02. remove the dependency on the store in the component
+        step - 03. introducing 'action creators'
      -->
      <script src="react.development.js"></script>
      <script src="react-dom.development.js"></script>
@@ -22,14 +23,25 @@
             return currentState;
         }
 
+        var spinnerActionCreators = {
+            decrement(){
+                const dec_action = { type : 'DECREMENT' };
+                return dec_action;
+            }
+            increment(){
+                const inc_action = { type : 'INCREMENT' };
+                return inc_action;
+            }
+        };
+
         class Spinner extends React.Component{
             onDecrementClick = () => {
-                const dec_action = { type : 'DECREMENT' };
-                this.props.dispatch(dec_action);
+                const action = this.props.actionCreators.decrement();
+                this.props.dispatch(action);
             }
             onIncrementClick = () => {
-                const inc_action = { type : 'INCREMENT' };
-                this.props.dispatch(inc_action);
+                const action = this.props.actionCreators.increment();
+                this.props.dispatch(action);
             }
             render(){
                 const spinnerValue = this.props.value;
@@ -48,7 +60,7 @@
         function renderSpinner(){
             const value = store.getState();
             ReactDOM.render(
-                <Spinner value={value} dispatch={store.dispatch} />
+                <Spinner value={value} dispatch={store.dispatch} actionCreators={spinnerActionCreators} />
             , document.getElementById('root'));
         }
         renderSpinner();
