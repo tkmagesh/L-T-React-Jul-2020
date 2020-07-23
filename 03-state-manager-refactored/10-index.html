@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>State Manager - Demo</title>
+    <script src="redux.js"></script>
+     <!--
+        step - 01. initial implementation
+        step - 02. remove the dependency on the store in the component
+        step - 03. introducing 'action creators'
+        step - 04. introducing 'action dispatchers' (and thereby removing the dependency of action creators and dispatch from the component)
+        step - 05. generalizing the creation of action dispatchers using bindActionCreators
+        step - 06. refactor the bindActionCreators to the state-manager.js
+        step - 07. refactoring the Spinner component
+        step - 10. handling payloads
+     -->
+     <script src="react.development.js"></script>
+     <script src="react-dom.development.js"></script>
+     <script src="babel.min.js"></script>
+     <script type="text/babel">
+
+        function spinnerReducer(currentState = 0, action){
+            //when an action is dispatched
+            if (action.type === 'INCREMENT') return currentState + action.payload;
+            if (action.type === 'DECREMENT') return currentState - action.payload;
+            return currentState;
+        }
+
+        let spinnerActionCreators = {
+            decrement(delta){
+                const dec_action = { type : 'DECREMENT', payload : delta };
+                return dec_action;
+            },
+            increment(delta){
+                const inc_action = { type : 'INCREMENT', payload : delta };
+                return inc_action;
+            }
+        };
+
+        class Spinner extends React.Component{
+            state = { 
+                delta : 0,
+            };
+
+            render(){
+                const { value : spinnerValue, increment, decrement } = this.props;
+                return(
+                    <div>
+                        <label>Delta : </label>
+                        <input type="number" value={this.state.delta} onChange={ evt => this.setState({delta : evt.target.valueAsNumber})} />
+                        <br/>
+                        <input type="button" value="Decrement" onClick={() => decrement(this.state.delta)} />
+                        <span> {spinnerValue} </span>
+                        <input type="button" value="Increment" onClick={() => increment(this.state.delta)} />
+                    </div>
+                )
+            }
+        }
+
+        let store = Redux.createStore(spinnerReducer);
+
+        let actionDispatchers = Redux.bindActionCreators(spinnerActionCreators, store.dispatch);
+
+        function renderSpinner(){
+            const value = store.getState();
+            ReactDOM.render(
+                 <Spinner 
+                    value={value} 
+                    {...actionDispatchers}
+                />
+            , document.getElementById('root'));
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+     </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
