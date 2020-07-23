@@ -125,6 +125,7 @@
                 const closedCount = bugs.reduce((result, bug) => bug.isClosed ? ++result : result, 0);
 
                 const bugItems = bugs.map(bug => (
+                    {/* BugItem */}
                     <li key={bug.id}>
                         <span 
                             className={'bugname ' + (bug.isClosed ? 'closed' : '')}
@@ -140,11 +141,15 @@
                     <div>
                         <h1>Bug Tracker</h1>
                         <hr/>
+                        
+                        {/* BugStats */}
                         <section className="stats">
                             <span className="closed">{closedCount}</span>
                             <span> / </span>
                             <span>{bugs.length}</span>
                         </section>
+
+                        {/* BugSort */}
                         <section className="sort">
                             <label htmlFor="">Order By :</label>
                             <select name="" id="">
@@ -155,11 +160,15 @@
                             <label htmlFor="">Descending? :</label>
                             <input type="checkbox" name="" id=""/>
                         </section>
+
+                        {/* BugEdit */}
                         <section className="edit">
                             <label htmlFor="">Bug Name :</label>
                             <input type="text" onChange={ evt => this.setState({ newBugName : evt.target.value })}/>
                             <input type="button" value="Add new" onClick={ () => addNew(this.state.newBugName) } />
                         </section>
+
+                        {/* BugList */}
                         <section className="list">
                             <ol>
                                 {bugItems}
