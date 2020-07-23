@@ -10,10 +10,10 @@
         Use Cases :
             (done) 1. Add new bugs
             (done) 2. List the added bugs
-            3. Toggle the 'closed' status of any bug
-            4. Remove any bug
-            5. Remove closed bugs
-            6. Display stats (# of closed bugs / total # of bugs)
+            (done) 3. Toggle the 'closed' status of any bug
+            (done) 4. Remove any bug
+            (done) 5. Remove closed bugs
+            (done) 6. Display stats (# of closed bugs / total # of bugs)
             7. Sort the bugs
             8. Persist the bugs in the server
             9. Make the bugs accessible using unique urls
@@ -70,7 +70,19 @@
             if (action.type === 'ADD_NEW_BUG'){
                 const newState = [ ...currentState, action.payload ];
                 return newState;
+            } else if (action.type === 'REPLACE_BUG'){
+                const bugToReplace = action.payload;
+                const newState = currentState.map(bug => bug.id === bugToReplace.id ? bugToReplace : bug);
+                return newState;
+            } else if (action.type === 'REMOVE_BUG'){
+                const bugToRemove = action.payload;
+                const newState = currentState.filter(bug => bug.id !== bugToRemove.id);
+                return newState;
+            } else if (action.type === 'INIT_BUGS'){
+                const newState = [...action.payload];
+                return newState;
             }
+            
             return currentState;
         }
 
@@ -86,6 +98,20 @@
                 };
                 const action = { type : 'ADD_NEW_BUG', payload : newBug };
                 return action;
+            },
+            toggle(bugToToggle){
+                const toggledBug = {...bugToToggle, isClosed : !bugToToggle.isClosed};
+                const action = { type : 'REPLACE_BUG', payload: toggledBug };
+                return action;
+            },
+            remove(bugToRemove){
+                const action = { type : 'REMOVE_BUG', payload : bugToRemove };
+                return action;
+            },
+            removeClosed(bugs){
+                const bugsToRetain = bugs.filter(bug => !bug.isClosed);
+                const action = { type : 'INIT_BUGS', payload : bugsToRetain };
+                return action;
             }
         }
 
@@ -95,12 +121,19 @@
             };
             
             render(){
-                const { bugs, addNew } = this.props;
+                const { bugs, addNew, toggle, remove, removeClosed } = this.props;
+                const closedCount = bugs.reduce((result, bug) => bug.isClosed ? ++result : result, 0);
+
                 const bugItems = bugs.map(bug => (
                     <li key={bug.id}>
-                        <span className="bugname">{bug.name}</span>
+                        <span 
+                            className={'bugname ' + (bug.isClosed ? 'closed' : '')}
+                            onClick = {() => toggle(bug)}
+                        >
+                            {bug.name}
+                        </span>
                         <div className="datetime">{bug.createdAt.toString()}</div>
-                        <input type="button" value="Remove"/>
+                        <input type="button" value="Remove" onClick={() => remove(bug)}/>
                     </li>
                 ));
                 return(
@@ -108,7 +141,7 @@
                         <h1>Bug Tracker</h1>
                         <hr/>
                         <section className="stats">
-                            <span className="closed">1</span>
+                            <span className="closed">{closedCount}</span>
                             <span> / </span>
                             <span>{bugs.length}</span>
                         </section>
@@ -131,7 +164,7 @@
                             <ol>
                                 {bugItems}
                             </ol>
-                            <input type="button" value="Remove Closed"/>
+                            <input type="button" value="Remove Closed" onClick={ () => removeClosed(bugs) }/>
                         </section>
                     </div>
                 )
