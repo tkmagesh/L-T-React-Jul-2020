@@ -61,3 +61,23 @@ ES6 modules
     Anything defined in a JS file is considered private
     Anything public should be explicity exported
     Anything from outside has to be explicity imported
+
+Application Folder structure
+src
+    /bugTracker
+        /actions
+            addNew.js
+            toggle.js
+        /views
+            BugStats.js
+            BugEdit.js
+        index.js (BugTracker component)
+
+    /reducers
+        bugsReducer.js
+
+    /store
+        index.js
+
+to install redux
+> yarn add redux
