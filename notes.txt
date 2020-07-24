@@ -47,3 +47,17 @@ State
             - getState()
             - subscribe(callback)
             
+    create-react-app
+    node.js module
+
+npm & yarn -> package managers in node.js
+
+windows
+npm install yarn -g
+
+npx create-react-app my-app
+
+ES6 modules
+    Anything defined in a JS file is considered private
+    Anything public should be explicity exported
+    Anything from outside has to be explicity imported
