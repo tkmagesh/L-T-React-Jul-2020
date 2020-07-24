@@ -81,3 +81,9 @@ src
 
 to install redux
 > yarn add redux
+
+Container Component / Smart Component  (components using the connect api)
+    interface with the redux infrastructure
+    Advisable to have fewer container components
+
+Presentation Component / Dumb Component
