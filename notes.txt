@@ -136,8 +136,36 @@ Lifecycle events
 React Hooks
     Functions
     the hook names start with the word 'use'
-    
+
     useState
     useEffects
     useReducer
     useMemo
+
+
+Bug Tracker
+    Evaluation Criteria
+        1. modularity
+        2. readable
+        3. naming conventions
+        4. functionality
+        5. comments
+        6. use only functional components
+
+Assignment for evaluation
+
+    Projects (id, name, description)
+        Add a navigation menu to the projects
+
+
+        Add the projects
+        List the projects
+
+        including server communication
+
+
+Upload the assignment to https://drive.google.com/drive/folders/1nVEil2OjDUi03B9NjkFRhELiAVfg3MAJ?usp=sharing
+(Remove the node_modules folter when uploading)
+
+contact me @ 99019-11221 / tkmagesh77@gmail.com
+
