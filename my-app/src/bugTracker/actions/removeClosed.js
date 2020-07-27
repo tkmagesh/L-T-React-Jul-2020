@@ -1,6 +1,7 @@
 import bugApi from "../services/bugApi";
+
 function removeClosed() {
-    
+
     return function(dispatch, getState){
         const bugs = getState().bugsData;
         bugs

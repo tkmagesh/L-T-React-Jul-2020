@@ -11,8 +11,11 @@ import BugList from './views/BugList';
 import './index.css';
 
 class BugTracker extends Component {
+    componentDidMount(){
+        this.props.load();
+    }
     render() {
-        const { bugs, addNew, toggle, remove, removeClosed, load } = this.props;
+        const { bugs, addNew, toggle, remove, removeClosed } = this.props;
         return (
             <div>
                 <h3>Bug Tracker</h3>
@@ -20,7 +23,6 @@ class BugTracker extends Component {
                 <BugStats bugs={bugs} />
                 <BugSort />
                 <BugEdit addNew={addNew} />
-                <input type="button" value="LOAD BUGS" onClick={load} />
                 <BugList bugs={bugs} toggle={toggle} remove={remove} removeClosed={removeClosed} />
             </div>
         )
@@ -28,7 +30,8 @@ class BugTracker extends Component {
 }
 
 function mapStateToProps(appState){
-    const bugs = appState.bugsData.filter(bug => bug.id % 2 === appState.spinnerData % 2);
+    //const bugs = appState.bugsData.filter(bug => bug.id % 2 === appState.spinnerData % 2);
+    const bugs = appState.bugsData;
     return { bugs : bugs };
 }
 

@@ -123,3 +123,11 @@ In the whole application there are only 2 places where you have access to the wh
     2. action function ( when using redux-thunk)
         Use this function if you want to access to the store state for manipulation
     
+
+Lifecycle events
+    componentWillMount
+    componentDidMount
+    render
+    shouldComponentUpdate
+    componentWillUpdate
+    componentWillUnmount
