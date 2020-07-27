@@ -87,3 +87,31 @@ Container Component / Smart Component  (components using the connect api)
     Advisable to have fewer container components
 
 Presentation Component / Dumb Component
+
+
+Middlewares in Redux
+    Any common functionality that need to be applied / available for all the actions
+
+
+function getData(){
+    var p = axios.get('http://localhost:3030/bugs');
+    var p2 = p.then(function(response){
+        return response.data;
+    });
+    return p2;
+}
+
+(OR)
+
+function getData(){
+    return axios
+        .get('http://localhost:3030/bugs')
+        .then(function(response){
+            return response.data;
+        });
+}
+
+getData()
+    .then(function(bugs){
+        console.table(bugs);
+    })

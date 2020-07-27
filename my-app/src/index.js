@@ -9,6 +9,10 @@ import appStore from './store';
 import BugTracker from './bugTracker';
 import Spinner from './spinner';
 
+//The following 2 lines of code HAS TO BE REMOVED
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={appStore}>

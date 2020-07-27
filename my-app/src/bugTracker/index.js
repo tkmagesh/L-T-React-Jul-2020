@@ -12,7 +12,7 @@ import './index.css';
 
 class BugTracker extends Component {
     render() {
-        const { bugs, addNew, toggle, remove, removeClosed } = this.props;
+        const { bugs, addNew, toggle, remove, removeClosed, load } = this.props;
         return (
             <div>
                 <h3>Bug Tracker</h3>
@@ -20,6 +20,7 @@ class BugTracker extends Component {
                 <BugStats bugs={bugs} />
                 <BugSort />
                 <BugEdit addNew={addNew} />
+                <input type="button" value="LOAD BUGS" onClick={load} />
                 <BugList bugs={bugs} toggle={toggle} remove={remove} removeClosed={removeClosed} />
             </div>
         )
