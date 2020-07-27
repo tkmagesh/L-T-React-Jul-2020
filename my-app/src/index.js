@@ -4,6 +4,12 @@ import { Provider } from "react-redux";
 
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 import appStore from './store';
 import BugTracker from './bugTracker';
@@ -47,19 +53,50 @@ class Timer extends React.Component {
   }
 }
 
+const Home = () => {
+  return (
+    <div>
+      <p>Irure ut quis aliquip velit consequat. Ut et adipisicing voluptate ex adipisicing fugiat cupidatat non magna nulla consectetur incididunt. Excepteur cillum fugiat deserunt dolor quis ea esse exercitation fugiat labore duis laborum in.</p>
+      <p>Irure ut quis aliquip velit consequat. Ut et adipisicing voluptate ex adipisicing fugiat cupidatat non magna nulla consectetur incididunt. Excepteur cillum fugiat deserunt dolor quis ea esse exercitation fugiat labore duis laborum in.</p>
+    </div>
+  )
+}
 
-ReactDOM.render(
-  <React.StrictMode>
-    
+ ReactDOM.render(
     <Provider store={appStore}>
       <h1>My App</h1>
-      <TimerContainer/>
-      <Spinner/>
-      <BugTracker/>
+      <Router>
+        <div>
+            <span>
+              [ <Link to="/">Home</Link> ]
+            </span>
+            <span>
+              [ <Link to="/bugs">Bug Tracker</Link> ]
+            </span>
+            <span>
+              [ <Link to="/spinner">Spinner</Link> ]
+            </span>
+            
+        </div>
+       <TimerContainer />      
+        <div>
+          <Switch>
+            <Route path="/bugs">
+              <BugTracker />
+            </Route>
+            <Route path="/spinner">
+              <Spinner />
+            </Route>
+           <Route path="/">
+             <Home />
+           </Route>
+          </Switch>
+        </div>
+      </Router>
     </Provider>
-  </React.StrictMode>,
+  
+  ,
   document.getElementById('root'));
- 
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
