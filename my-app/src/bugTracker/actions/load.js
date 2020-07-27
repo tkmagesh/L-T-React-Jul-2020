@@ -15,9 +15,28 @@ function getLocalBugs(){
 }
 
 function load(){
+    //getLocalBugs - synchronously returns data
+    /*
     const bugs = getLocalBugs();
-    const action = { type : 'INIT_BUGS', payload: bugs };
-    return action;
+    const action = { type: 'INIT_BUGS', payload: bugs };
+    return action; */
+
+    // getServerBugs - asynchronous function
+    return function(dispatch){
+        /* 
+        const p = getServerBugs();
+        p.then(function(bugs){
+            const action = { type: 'INIT_BUGS', payload: bugs };
+            dispatch(action);
+        });  
+        */
+
+        getServerBugs()
+            .then(bugs => {
+                const action = { type: 'INIT_BUGS', payload: bugs };
+                dispatch(action)
+            });
+    };
 }
 
 export default load;
