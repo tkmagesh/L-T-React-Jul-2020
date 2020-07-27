@@ -1,22 +1,10 @@
 {
   "bugs": [
     {
-      "id": 4,
-      "name": "Application not responding",
-      "isClosed": false,
-      "createdAt": "2020-07-27T07:23:14.084Z"
-    },
-    {
       "id": 5,
       "name": "Server communication failure",
       "isClosed": false,
       "createdAt": "2020-07-27T09:03:47.853Z"
-    },
-    {
-      "id": 6,
-      "name": "User actions not recognized",
-      "isClosed": false,
-      "createdAt": "2020-07-27T09:03:55.200Z"
     },
     {
       "id": 7,
