@@ -1,10 +1,6 @@
-import axios from 'axios';
+import bugApi from "../services/bugApi";
 
-function getServerBugs() {
-    return axios.get('http://localhost:3030/bugs')
-        .then(response => response.data);
-}
-
+/* 
 function getLocalBugs(){
     var bugs = [
         {id : 1, name: 'Bug - 1', isClosed: false, createdAt : new Date()},
@@ -13,6 +9,7 @@ function getLocalBugs(){
     ];
     return bugs;
 }
+ */
 
 function load(){
     //getLocalBugs - synchronously returns data
@@ -31,10 +28,17 @@ function load(){
         });  
         */
 
-        getServerBugs()
+        /* getServerBugs()
             .then(bugs => {
                 const action = { type: 'INIT_BUGS', payload: bugs };
                 dispatch(action)
+            }); */
+
+        bugApi
+            .getAll()
+            .then(bugs => {
+                const action = { type: 'INIT_BUGS', payload: bugs };
+                dispatch(action);
             });
     };
 }
