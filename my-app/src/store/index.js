@@ -1,6 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import loggerMiddleware from './middlewares/loggerMiddleware';
-import asyncMiddleware from './middlewares/asyncMiddleware';
+//import loggerMiddleware from './middlewares/loggerMiddleware';
+// yarn add redux-logger
+import logger from 'redux-logger';
+
+//import asyncMiddleware from './middlewares/asyncMiddleware';
+//yarn add redux-thunk
+import thunk from 'redux-thunk';
 
 import bugsReducer from '../reducers/bugsReducer';
 import spinnerReducer from '../reducers/spinnerReducer';
@@ -21,6 +26,6 @@ function loggerMiddleware(store){
 } 
 */
 
-const appStore = createStore(rootReducer, applyMiddleware(loggerMiddleware, asyncMiddleware));
+const appStore = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 export default appStore;
