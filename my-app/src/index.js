@@ -47,7 +47,7 @@ const TimerContainer = () => {
 };
 
 
-class Timer extends React.Component {
+/* class Timer extends React.Component {
   state = {
     currentTime: new Date()
   }
@@ -68,6 +68,22 @@ class Timer extends React.Component {
     return (<div>[ {this.state.currentTime.toTimeString()} ]</div>);
   }
 }
+*/
+
+const Timer = () => {
+  const [currentTime, setCurrentTime] = React.useState(new Date());
+  React.useEffect(() => {
+    console.log('component is mounted / updated');
+    const timerId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => {
+      console.log('component is unmounted');
+      clearInterval(timerId);
+    };
+  }, []);
+  return (<div>[ {currentTime.toTimeString()} ]</div>);
+}
 
 const Home = () => {
   return (
@@ -77,6 +93,8 @@ const Home = () => {
     </div>
   )
 }
+
+
 
  ReactDOM.render(
     <Provider store={appStore}>
