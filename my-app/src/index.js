@@ -15,6 +15,7 @@ import appStore from './store';
 import BugTracker from './bugTracker';
 import Spinner from './spinner';
 
+/* 
 class TimerContainer extends React.Component {
   state = {
     show : true
@@ -29,7 +30,22 @@ class TimerContainer extends React.Component {
     );
   }
 
-}
+} 
+*/
+
+const TimerContainer = () => {
+  const [show, setShow] = React.useState(true);
+  return(
+    <div>
+      <input 
+        type="button" 
+        value="Toggle Timer" 
+        onClick={() => setShow(!show) } />
+      { show ? <Timer /> : null}
+    </div>
+  )
+};
+
 
 class Timer extends React.Component {
   state = {

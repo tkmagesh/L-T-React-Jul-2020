@@ -131,3 +131,13 @@ Lifecycle events
     shouldComponentUpdate
     componentWillUpdate
     componentWillUnmount
+
+
+React Hooks
+    Functions
+    the hook names start with the word 'use'
+    
+    useState
+    useEffects
+    useReducer
+    useMemo
